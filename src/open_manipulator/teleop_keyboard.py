@@ -34,23 +34,25 @@
 #
 # Author: Will Son
 
-from concurrent.futures import ThreadPoolExecutor
-from math import exp
 import os
 import select
 import sys
-import rclpy
-
-from open_manipulator_msgs.msg import KinematicsPose, OpenManipulatorState
-from open_manipulator_msgs.srv import SetJointPosition, SetKinematicsPose
-from rclpy.callback_groups import ReentrantCallbackGroup
-from sensor_msgs.msg import JointState
-# from rclpy.executors import Executor, SingleThreadedExecutor
-from rclpy.node import Node
-from rclpy.qos import QoSProfile
+from concurrent.futures import ThreadPoolExecutor
+from math import exp
 from threading import Timer
 
-if os.name == 'nt':
+import rclpy  # pyright: ignore
+from open_manipulator_msgs.msg import KinematicsPose  # pyright: ignore
+from open_manipulator_msgs.msg import OpenManipulatorState  # pyright: ignore
+from open_manipulator_msgs.srv import SetJointPosition  # pyright: ignore
+from open_manipulator_msgs.srv import SetKinematicsPose  # pyright: ignore
+from rclpy.callback_groups import ReentrantCallbackGroup  # pyright: ignore
+# from rclpy.executors import Executor, SingleThreadedExecutor
+from rclpy.node import Node  # pyright: ignore
+from rclpy.qos import QoSProfile  # pyright: ignore
+from sensor_msgs.msg import JointState  # pyright: ignore
+
+if os.name == "nt":
     import msvcrt
 else:
     import termios
@@ -100,68 +102,95 @@ class TeleopKeyboard(Node):
 
     qos = QoSProfile(depth=10)
     settings = None
-    if os.name != 'nt':
+    if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
 
     def __init__(self):
-        super().__init__('teleop_keyboard')
-        key_value = ''
+        super().__init__("teleop_keyboard")
+        key_value = ""
 
         # Create joint_states subscriber
         self.joint_state_subscription = self.create_subscription(
-            JointState,
-            'joint_states',
-            self.joint_state_callback,
-            self.qos)
+            JointState, "joint_states", self.joint_state_callback, self.qos
+        )
         self.joint_state_subscription
 
         # Create kinematics_pose subscriber
         self.kinematics_pose_subscription = self.create_subscription(
-            KinematicsPose,
-            'kinematics_pose',
-            self.kinematics_pose_callback,
-            self.qos)
+            KinematicsPose, "kinematics_pose", self.kinematics_pose_callback, self.qos
+        )
         self.kinematics_pose_subscription
 
         # Create manipulator state subscriber
         self.open_manipulator_state_subscription = self.create_subscription(
             OpenManipulatorState,
-            'states',
+            "states",
             self.open_manipulator_state_callback,
-            self.qos)
+            self.qos,
+        )
         self.open_manipulator_state_subscription
 
         # Create Service Clients
-        self.goal_joint_space = self.create_client(SetJointPosition, 'goal_joint_space_path')
-        self.goal_task_space = self.create_client(SetKinematicsPose, 'goal_task_space_path')
+        self.goal_joint_space = self.create_client(
+            SetJointPosition, "goal_joint_space_path"
+        )
+        self.goal_task_space = self.create_client(
+            SetKinematicsPose, "goal_task_space_path"
+        )
         self.goal_joint_space_req = SetJointPosition.Request()
         self.goal_task_space_req = SetKinematicsPose.Request()
 
     def send_goal_task_space(self):
-        self.goal_task_space_req.end_effector_name = 'gripper'
-        self.goal_task_space_req.kinematics_pose.pose.position.x = goal_kinematics_pose[0]
-        self.goal_task_space_req.kinematics_pose.pose.position.y = goal_kinematics_pose[1]
-        self.goal_task_space_req.kinematics_pose.pose.position.z = goal_kinematics_pose[2]
-        self.goal_task_space_req.kinematics_pose.pose.orientation.w = goal_kinematics_pose[3]
-        self.goal_task_space_req.kinematics_pose.pose.orientation.x = goal_kinematics_pose[4]
-        self.goal_task_space_req.kinematics_pose.pose.orientation.y = goal_kinematics_pose[5]
-        self.goal_task_space_req.kinematics_pose.pose.orientation.z = goal_kinematics_pose[6]
+        self.goal_task_space_req.end_effector_name = "gripper"
+        self.goal_task_space_req.kinematics_pose.pose.position.x = goal_kinematics_pose[
+            0
+        ]
+        self.goal_task_space_req.kinematics_pose.pose.position.y = goal_kinematics_pose[
+            1
+        ]
+        self.goal_task_space_req.kinematics_pose.pose.position.z = goal_kinematics_pose[
+            2
+        ]
+        self.goal_task_space_req.kinematics_pose.pose.orientation.w = (
+            goal_kinematics_pose[3]
+        )
+        self.goal_task_space_req.kinematics_pose.pose.orientation.x = (
+            goal_kinematics_pose[4]
+        )
+        self.goal_task_space_req.kinematics_pose.pose.orientation.y = (
+            goal_kinematics_pose[5]
+        )
+        self.goal_task_space_req.kinematics_pose.pose.orientation.z = (
+            goal_kinematics_pose[6]
+        )
         self.goal_task_space_req.path_time = path_time
 
         try:
             send_goal_task = self.goal_task_space.call_async(self.goal_task_space_req)
         except Exception as e:
-            self.get_logger().info('Sending Goal Kinematic Pose failed %r' % (e,))
+            self.get_logger().info("Sending Goal Kinematic Pose failed %r" % (e,))
 
     def send_goal_joint_space(self):
-        self.goal_joint_space_req.joint_position.joint_name = ['joint1', 'joint2', 'joint3', 'joint4']
-        self.goal_joint_space_req.joint_position.position = [goal_joint_angle[0], goal_joint_angle[1], goal_joint_angle[2], goal_joint_angle[3]]
+        self.goal_joint_space_req.joint_position.joint_name = [
+            "joint1",
+            "joint2",
+            "joint3",
+            "joint4",
+        ]
+        self.goal_joint_space_req.joint_position.position = [
+            goal_joint_angle[0],
+            goal_joint_angle[1],
+            goal_joint_angle[2],
+            goal_joint_angle[3],
+        ]
         self.goal_joint_space_req.path_time = path_time
 
         try:
-            send_goal_joint = self.goal_joint_space.call_async(self.goal_joint_space_req)
+            send_goal_joint = self.goal_joint_space.call_async(
+                self.goal_joint_space_req
+            )
         except Exception as e:
-            self.get_logger().info('Sending Goal Joint failed %r' % (e,))
+            self.get_logger().info("Sending Goal Joint failed %r" % (e,))
 
     def kinematics_pose_callback(self, msg):
         present_kinematics_pose[0] = msg.pose.position.x
@@ -179,46 +208,54 @@ class TeleopKeyboard(Node):
         present_joint_angle[3] = msg.position[3]
 
     def open_manipulator_state_callback(self, msg):
-        if msg.open_manipulator_moving_state == 'STOPPED':
+        if msg.open_manipulator_moving_state == "STOPPED":
             for index in range(0, 7):
                 goal_kinematics_pose[index] = present_kinematics_pose[index]
             for index in range(0, 4):
                 goal_joint_angle[index] = present_joint_angle[index]
 
+
 def get_key(settings):
-    if os.name == 'nt':
-        return msvcrt.getch().decode('utf-8')
+    if os.name == "nt":
+        return msvcrt.getch().decode("utf-8")
     tty.setraw(sys.stdin.fileno())
     rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
     if rlist:
         key = sys.stdin.read(1)
     else:
-        key = ''
+        key = ""
 
     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
     print_present_values()
     return key
 
+
 def print_present_values():
     print(usage)
-    print('Joint Angle(Rad): [{:.6f}, {:.6f}, {:.6f}, {:.6f}]'.format(
-        present_joint_angle[0],
-        present_joint_angle[1],
-        present_joint_angle[2],
-        present_joint_angle[3]))
-    print('Kinematics Pose(Pose X, Y, Z | Orientation W, X, Y, Z): {:.3f}, {:.3f}, {:.3f} | {:.3f}, {:.3f}, {:.3f}, {:.3f}'.format(
-        present_kinematics_pose[0],
-        present_kinematics_pose[1],
-        present_kinematics_pose[2],
-        present_kinematics_pose[3],
-        present_kinematics_pose[4],
-        present_kinematics_pose[5],
-        present_kinematics_pose[6]))
+    print(
+        "Joint Angle(Rad): [{:.6f}, {:.6f}, {:.6f}, {:.6f}]".format(
+            present_joint_angle[0],
+            present_joint_angle[1],
+            present_joint_angle[2],
+            present_joint_angle[3],
+        )
+    )
+    print(
+        "Kinematics Pose(Pose X, Y, Z | Orientation W, X, Y, Z): {:.3f}, {:.3f}, {:.3f} | {:.3f}, {:.3f}, {:.3f}, {:.3f}".format(
+            present_kinematics_pose[0],
+            present_kinematics_pose[1],
+            present_kinematics_pose[2],
+            present_kinematics_pose[3],
+            present_kinematics_pose[4],
+            present_kinematics_pose[5],
+            present_kinematics_pose[6],
+        )
+    )
 
 
 def main():
     settings = None
-    if os.name != 'nt':
+    if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
 
     try:
@@ -226,71 +263,85 @@ def main():
     except Exception as e:
         print(e)
 
+    teleop_keyboard = TeleopKeyboard()
+
     try:
         teleop_keyboard = TeleopKeyboard()
     except Exception as e:
         print(e)
 
     try:
-        while(rclpy.ok()):
+        while rclpy.ok():
             rclpy.spin_once(teleop_keyboard)
             key_value = get_key(settings)
-            if key_value == 'w':
-                goal_kinematics_pose[0] = prev_goal_kinematics_pose[0] + task_position_delta
+            if key_value == "w":
+                goal_kinematics_pose[0] = (
+                    prev_goal_kinematics_pose[0] + task_position_delta
+                )
                 teleop_keyboard.send_goal_task_space()
-            elif key_value == 'x':
-                goal_kinematics_pose[0] = prev_goal_kinematics_pose[0] - task_position_delta
+            elif key_value == "x":
+                goal_kinematics_pose[0] = (
+                    prev_goal_kinematics_pose[0] - task_position_delta
+                )
                 teleop_keyboard.send_goal_task_space()
-            elif key_value == 'a':
-                goal_kinematics_pose[1] = prev_goal_kinematics_pose[1] + task_position_delta
+            elif key_value == "a":
+                goal_kinematics_pose[1] = (
+                    prev_goal_kinematics_pose[1] + task_position_delta
+                )
                 teleop_keyboard.send_goal_task_space()
-            elif key_value == 'd':
-                goal_kinematics_pose[1] = prev_goal_kinematics_pose[1] - task_position_delta
+            elif key_value == "d":
+                goal_kinematics_pose[1] = (
+                    prev_goal_kinematics_pose[1] - task_position_delta
+                )
                 teleop_keyboard.send_goal_task_space()
-            elif key_value == 'q':
-                goal_kinematics_pose[2] = prev_goal_kinematics_pose[2] + task_position_delta
+            elif key_value == "q":
+                goal_kinematics_pose[2] = (
+                    prev_goal_kinematics_pose[2] + task_position_delta
+                )
                 teleop_keyboard.send_goal_task_space()
-            elif key_value == 'z':
-                goal_kinematics_pose[2] = prev_goal_kinematics_pose[2] - task_position_delta
+            elif key_value == "z":
+                goal_kinematics_pose[2] = (
+                    prev_goal_kinematics_pose[2] - task_position_delta
+                )
                 teleop_keyboard.send_goal_task_space()
-            elif key_value == 'y':
+            elif key_value == "y":
                 goal_joint_angle[0] = prev_goal_joint_angle[0] + joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == 'h':
+            elif key_value == "h":
                 goal_joint_angle[0] = prev_goal_joint_angle[0] - joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == 'u':
+            elif key_value == "u":
                 goal_joint_angle[1] = prev_goal_joint_angle[1] + joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == 'j':
+            elif key_value == "j":
                 goal_joint_angle[1] = prev_goal_joint_angle[1] - joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == 'i':
+            elif key_value == "i":
                 goal_joint_angle[2] = prev_goal_joint_angle[2] + joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == 'k':
+            elif key_value == "k":
                 goal_joint_angle[2] = prev_goal_joint_angle[2] - joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == 'o':
+            elif key_value == "o":
                 goal_joint_angle[3] = prev_goal_joint_angle[3] + joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == 'l':
+            elif key_value == "l":
                 goal_joint_angle[3] = prev_goal_joint_angle[3] - joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == '1':
+            elif key_value == "1":
                 goal_joint_angle[0] = 0.0
                 goal_joint_angle[1] = 0.0
                 goal_joint_angle[2] = 0.0
                 goal_joint_angle[3] = 0.0
                 teleop_keyboard.send_goal_joint_space()
-            elif key_value == '2':
+            elif key_value == "2":
                 goal_joint_angle[0] = 0.0
                 goal_joint_angle[1] = -1.05
                 goal_joint_angle[2] = 0.35
                 goal_joint_angle[3] = 0.70
                 teleop_keyboard.send_goal_joint_space()
             else:
-                if key_value == '\x03':
+                if key_value == "\x03":
                     break
                 else:
                     for index in range(0, 7):
@@ -302,11 +353,11 @@ def main():
         print(e)
 
     finally:
-        if os.name != 'nt':
+        if os.name != "nt":
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
         teleop_keyboard.destroy_node()
         rclpy.shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
