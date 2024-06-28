@@ -70,23 +70,6 @@
 
   - [ ] Research robot arm software
 
-## Research robot arm hardware (20240624)
-
-- [x] Robot Arm Frame
-  - [x] Dofbot
-        RM-X52 선택으로 인해 취소
-  - [x] RM-X52
-        구매 예산 부족 -> 대여
-
-## Initialise Robot Arm (20240625)
-
-- install ubuntu 20.04 to jetson nano  
-  https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image
-  (Using Rufus)
-- install ROS 2 Foxy Fitzroy on ubuntu
-- install ROS Packages
-- [ ] micro 5pin cable
-
 ## 하드웨어 선정
 
 #### Claw
@@ -195,3 +178,27 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 로봇팔 부품을 하나하나 구매 하려고 하는데,
 
 어떤 부품을 사야하는 지, 감이 안옴
+
+# Day Log
+
+## Research robot arm hardware (20240624)
+
+- [x] Robot Arm Frame
+  - [x] Dofbot
+        RM-X52 선택으로 인해 취소
+  - [x] RM-X52
+        구매 예산 부족 -> 대여
+
+## Initialise Robot Arm (20240625)
+
+- install ubuntu 20.04 to jetson nano  
+  https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image
+  (Using Rufus)
+- install ROS 2 Foxy Fitzroy on ubuntu
+- install ROS Packages
+- [x] micro 5pin cable
+
+## Switch to ROS1 (20240628)
+
+- Add Gripper open/close code
+- To use Moveit library on openmanipulator-x
