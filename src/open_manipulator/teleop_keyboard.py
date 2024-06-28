@@ -47,6 +47,7 @@ from open_manipulator_msgs.msg import OpenManipulatorState  # pyright: ignore
 from open_manipulator_msgs.srv import SetJointPosition  # pyright: ignore
 from open_manipulator_msgs.srv import SetKinematicsPose  # pyright: ignore
 from rclpy.callback_groups import ReentrantCallbackGroup  # pyright: ignore
+
 # from rclpy.executors import Executor, SingleThreadedExecutor
 from rclpy.node import Node  # pyright: ignore
 from rclpy.qos import QoSProfile  # pyright: ignore
@@ -304,6 +305,16 @@ def main():
                     prev_goal_kinematics_pose[2] - task_position_delta
                 )
                 teleop_keyboard.send_goal_task_space()
+            elif key_value == "f":
+                goal_kinematics_pose[3] = (
+                    prev_goal_kinematics_pose[3] - task_position_delta
+                )
+                teleop_keyboard.send_goal_task_space()
+            elif key_value == "g":
+                goal_kinematics_pose[3] = (
+                    prev_goal_kinematics_pose[3] - task_position_delta
+                )
+                teleop_keyboard.send_goal_task_space()
             elif key_value == "y":
                 goal_joint_angle[0] = prev_goal_joint_angle[0] + joint_angle_delta
                 teleop_keyboard.send_goal_joint_space()
@@ -335,6 +346,12 @@ def main():
                 goal_joint_angle[3] = 0.0
                 teleop_keyboard.send_goal_joint_space()
             elif key_value == "2":
+                goal_joint_angle[0] = 0.0
+                goal_joint_angle[1] = -1.05
+                goal_joint_angle[2] = 0.35
+                goal_joint_angle[3] = 0.70
+                teleop_keyboard.send_goal_joint_space()
+            elif key_value == "3":
                 goal_joint_angle[0] = 0.0
                 goal_joint_angle[1] = -1.05
                 goal_joint_angle[2] = 0.35
