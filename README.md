@@ -215,4 +215,48 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 
 ## 20240702
 
+#### Implement Object Detection
+  카메라 -> 객체 좌표 -> ROS
+
+  - OpenCV
+
+    ```bash
+    sudo apt install python3-pip
+    python3 -m pip install opencv-python
+    ```
+
+  - YOLO  
+    You Only Look Once, Object Detection
+
+  - What's the Jetpack SDK  
+     It's bundles all the Jetson platform software, including TensorRT, cuDNN, CUDA Toolkit, Vision Works, Streamer, and OpenCV.
+    All built on top of L4T with LTS Linux kernel.  
+    To leveraging the GPU on the Jetson Nano.
+
+    - Install Jetpack SDK  
+      `sudo apt install nvidia-jetpack`
+
 - learn what is moveit and how to use it.
+
+- teleop를 통해 robot-arm 움직이는 것 영상 찍기 -> 분석, 계획 플래닝
+
+#### 라즈베리파이 활용
+
+- 라즈베리파이 5 vs Jetson Nano (ARM CortexA57)  
+  - CPU Frequency
+    데이터 집약적 작업에 유용
+    센서데이터 수집, 초기데이터 관리, 데이터 분석
+    통신 노드, 웹 서버, 파일 서버, 모니터링 대시보드
+
+    Jetson Nano: 1.43 GHz
+    **승** raspberry pi 5: 2.4 GHz
+
+  - GPU Frequency  
+    GPU 가속이 필요한 작업에 유용
+    컴퓨터 비전, 실시간 비디오 처리, 딥러닝 기반 분석
+    GPU기반 알고리즘 사용
+
+    **승** Jetson Nano: 921 MHz
+    raspberry pi 5: 800 MHz
+
+- 처리 분산
