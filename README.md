@@ -202,3 +202,17 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 
 - Add Gripper open/close code
 - To use Moveit library on openmanipulator-x
+
+## 20240701
+
+- Install & setup ROS moveit
+
+  - [ ] launcher is stopped often.
+
+- Connect camera to opencv
+  - [ ] camera doesn't detected
+    - camera is broken (buy another one)
+
+## 20240702
+
+- learn what is moveit and how to use it.
