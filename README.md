@@ -240,7 +240,7 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 
 - teleop를 통해 robot-arm 움직이는 것 영상 찍기 -> 분석, 계획 플래닝
 
-#### 라즈베리파이 활용
+#### 라즈베리파이 활용 분야 선택
 
 - 라즈베리파이 5 vs Jetson Nano (ARM CortexA57)  
   - CPU Frequency
@@ -260,3 +260,44 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
     raspberry pi 5: 800 MHz
 
 - 처리 분산
+
+## 20240703
+
+### 서류 처리
+
+- 프로젝트 지출 품의서 작성, 제출  
+  - [x] 부품 사진 최신화
+  - [x] 결과서, 품의서 분리
+  - [x] 도서 품의서 작성, 제출
+
+### ROS Yolo
+
+- `open_manipulator_controller.cpp` 분석
+
+- `open_manipulator_teleop_keyboard.cpp` 분석
+  - OpenManipulatorTeleop class를 통해 Node 생성, 소멸 관리
+
+### Jetson Nano & Raspberry PI 처리분산
+
+#### Jetson Nano
+-> 카메라 영상 처리
+
+#### Raspberry PI
+모니터링 용도로 사용?
+-> 무엇을 모니터링 해야할까?
+-> 로봇팔의 상태
+-> 사람팔 인식?
+
+- python 가상 환경 구성 (venv)  
+  `python3 -m venv opencv`
+  
+- python 가상 환경 실행  
+  `source opencv/bin/activate`
+  
+- opencv 설치  
+  `pip install opencv-python`
+
+- raspberry pi camera 활용을 위한 파이썬 라이브러리 설치  
+  `pip install pycamera`
+
+- ssh 원격 개발 환경 구성
