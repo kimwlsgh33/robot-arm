@@ -56,12 +56,20 @@ void OpenManipulatorTeleop::initSubscriber() {
       this);
 }
 
+// Topic이 호출 -> Subscriber Node 에게 메시지 전파 -> Callback 실행
+// JointState, 관절 상태에 대한 정보를 받는다
 void OpenManipulatorTeleop::jointStatesCallback(
     const sensor_msgs::JointState::ConstPtr &msg) {
   std::vector<double> temp_angle;
   temp_angle.resize(NUM_OF_JOINT);
+  // Message의 새로운 관절 위치를 사용해,
+  // present_joint_angle 업데이트
+  // name: ["joint1", "joint2", "joint3", "joint4"]
   for (std::vector<int>::size_type i = 0; i < msg->name.size(); i++) {
     if (!msg->name.at(i).compare("joint1"))
+      // i번째 관절 이름이 "joint1" 이면,
+      // -> Message의 i번째 위치 불러옴
+      // -> 첫번째 관절 각도 조절
       temp_angle.at(0) = (msg->position.at(i));
     else if (!msg->name.at(i).compare("joint2"))
       temp_angle.at(1) = (msg->position.at(i));
@@ -335,8 +343,11 @@ void OpenManipulatorTeleop::restoreTerminalSettings(void) {
 }
 
 void OpenManipulatorTeleop::disableWaitingForEnter(void) {
+  // `termios` is used to store the terminal I/O setting
   struct termios newt;
 
+  // 1. Getting the current terminal I/O settings for file descipter `0`
+  // 2. These setting
   tcgetattr(0, &oldt_);             /* Save terminal settings */
   newt = oldt_;                     /* Init new settings */
   newt.c_lflag &= ~(ICANON | ECHO); /* Change settings */

@@ -51,8 +51,8 @@ private:
   /*****************************************************************************
   ** Variables
   *****************************************************************************/
-  std::vector<double> present_joint_angle_;
-  std::vector<double> present_kinematic_position_;
+  std::vector<double> present_joint_angle_;        // 관절 각도
+  std::vector<double> present_kinematic_position_; // 원점 기준 위치
 
   /*****************************************************************************
   ** Init Functions

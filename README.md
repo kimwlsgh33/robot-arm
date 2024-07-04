@@ -306,24 +306,26 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 
 ## 20240704
 
-- [ ] 오늘 할 내용 리스트 작성하기
+- [x] 내일 할 내용 리스트 작성하기
+- [x] 우선순위 정하기
 
-  - [ ]
-  - [ ]
-  - [ ]
-  - [ ]
-
-- [ ] 오늘 할 내용 우선순위 정하기
-
-- [ ] 진세형이 작성한 결과 보고서 검토하기
-- [ ] 슬라이드 최신화 하기
+- [x] 진세형이 작성한 결과 보고서 검토하기
+- [x] 슬라이드 최신화 하기
+- [ ] Mac코드와 Jetson Nano ROS1 코드 비교
+  - [x] 동일하면 Mac에서 그대로진행
+  - [ ] 다르면 Jetson Nano ROS1 코드
 - [ ] OpenCV 코드, Jetson Nano가 됐건, Raspberry Pi가 됐건 작성 완료
-  - Jetson Nano Adapter 교수님께 여쭤보기 (micro 8pin)
-  - 테스트 하며, 영상 촬영하기
-- [ ] ROS1 코드 분석, 발표 자료 작성에 추가하기
 
-  - [ ] Mac코드와 Jetson Nano ROS1 코드 비교
-    - [ ] 동일하면 Mac에서 그대로진행
-    - [ ] 다르면 Jetson Nano ROS1 코드
+  - [x] Jetson Nano Adapter 교수님께 여쭤보기 (micro 8pin)
+        5V/3A Adapter 빌려서 해결
+  - [ ] opencv 카메라 그린 스크린
+
+    - opencv 3.3.1 버전 재설치
+      - [ ] Please include the appropriate gl headers before including cuda_gl_interop.h
+        - `/usr/local/cuda/include/cuda_gl_interop.h` 파일 `<GL.h>` 중복 선언 되도록 변경
+
+  - 테스트 하며, 영상 촬영하기
+
+- [ ] ROS1 코드 분석, 발표 자료 작성에 추가하기
 
 - [ ] Readme 파일 틈틈히 작성할 것
