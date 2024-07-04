@@ -216,25 +216,26 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 ## 20240702
 
 #### Implement Object Detection
-  카메라 -> 객체 좌표 -> ROS
 
-  - OpenCV
+카메라 -> 객체 좌표 -> ROS
 
-    ```bash
-    sudo apt install python3-pip
-    python3 -m pip install opencv-python
-    ```
+- OpenCV
 
-  - YOLO  
-    You Only Look Once, Object Detection
+  ```bash
+  sudo apt install python3-pip
+  python3 -m pip install opencv-python
+  ```
 
-  - What's the Jetpack SDK  
-     It's bundles all the Jetson platform software, including TensorRT, cuDNN, CUDA Toolkit, Vision Works, Streamer, and OpenCV.
-    All built on top of L4T with LTS Linux kernel.  
-    To leveraging the GPU on the Jetson Nano.
+- YOLO  
+  You Only Look Once, Object Detection
 
-    - Install Jetpack SDK  
-      `sudo apt install nvidia-jetpack`
+- What's the Jetpack SDK  
+   It's bundles all the Jetson platform software, including TensorRT, cuDNN, CUDA Toolkit, Vision Works, Streamer, and OpenCV.
+  All built on top of L4T with LTS Linux kernel.  
+  To leveraging the GPU on the Jetson Nano.
+
+  - Install Jetpack SDK  
+    `sudo apt install nvidia-jetpack`
 
 - learn what is moveit and how to use it.
 
@@ -242,7 +243,8 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 
 #### 라즈베리파이 활용 분야 선택
 
-- 라즈베리파이 5 vs Jetson Nano (ARM CortexA57)  
+- 라즈베리파이 5 vs Jetson Nano (ARM CortexA57)
+
   - CPU Frequency
     데이터 집약적 작업에 유용
     센서데이터 수집, 초기데이터 관리, 데이터 분석
@@ -265,7 +267,7 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 
 ### 서류 처리
 
-- 프로젝트 지출 품의서 작성, 제출  
+- 프로젝트 지출 품의서 작성, 제출
   - [x] 부품 사진 최신화
   - [x] 결과서, 품의서 분리
   - [x] 도서 품의서 작성, 제출
@@ -280,9 +282,11 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 ### Jetson Nano & Raspberry PI 처리분산
 
 #### Jetson Nano
+
 -> 카메라 영상 처리
 
 #### Raspberry PI
+
 모니터링 용도로 사용?
 -> 무엇을 모니터링 해야할까?
 -> 로봇팔의 상태
@@ -290,14 +294,36 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 
 - python 가상 환경 구성 (venv)  
   `python3 -m venv opencv`
-  
 - python 가상 환경 실행  
   `source opencv/bin/activate`
-  
 - opencv 설치  
   `pip install opencv-python`
 
 - raspberry pi camera 활용을 위한 파이썬 라이브러리 설치  
-  `pip install pycamera`
+  `pip install picamera`
 
 - ssh 원격 개발 환경 구성
+
+## 20240704
+
+- [ ] 오늘 할 내용 리스트 작성하기
+
+  - [ ]
+  - [ ]
+  - [ ]
+  - [ ]
+
+- [ ] 오늘 할 내용 우선순위 정하기
+
+- [ ] 진세형이 작성한 결과 보고서 검토하기
+- [ ] 슬라이드 최신화 하기
+- [ ] OpenCV 코드, Jetson Nano가 됐건, Raspberry Pi가 됐건 작성 완료
+  - Jetson Nano Adapter 교수님께 여쭤보기 (micro 8pin)
+  - 테스트 하며, 영상 촬영하기
+- [ ] ROS1 코드 분석, 발표 자료 작성에 추가하기
+
+  - [ ] Mac코드와 Jetson Nano ROS1 코드 비교
+    - [ ] 동일하면 Mac에서 그대로진행
+    - [ ] 다르면 Jetson Nano ROS1 코드
+
+- [ ] Readme 파일 틈틈히 작성할 것

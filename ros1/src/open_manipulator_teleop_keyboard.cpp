@@ -40,8 +40,15 @@ void OpenManipulatorTeleop::initClient() {
 }
 
 void OpenManipulatorTeleop::initSubscriber() {
-  // 초기화된 node_handle_ 을 통해, `joint_states` Topic을 구독
-  // 이후 `joint_state` Topic을 통해 들어오는 메시지를 받을 수 있게 된다
+  /*
+   * ROS1 node_handle_.subscribe
+   * 1. 초기화된 node_handle_ 을 통해, `joint_states` Topic을 구독
+   * 이후 `joint_state` Topic을 통해 들어오는 메시지를 받을 수 있게 된다
+   * 2. queue를 이용해 최대 10개의 메시지를 버퍼링 한다
+   * 3. 메시지가 수신되면, 실행될 callback 함수를 포인터 형식으로 받는다
+   * 4. 객체의 멤버함수를 callback 함수로 지정하고자 할때, 그 객체의 주소를
+   * 넘겨주어야 한다.
+   */
   joint_states_sub_ = node_handle_.subscribe(
       "joint_states", 10, &OpenManipulatorTeleop::jointStatesCallback, this);
   kinematics_pose_sub_ = node_handle_.subscribe(
