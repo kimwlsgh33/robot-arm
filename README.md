@@ -311,21 +311,51 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 
 - [x] 진세형이 작성한 결과 보고서 검토하기
 - [x] 슬라이드 최신화 하기
-- [ ] Mac코드와 Jetson Nano ROS1 코드 비교
+- [x] Mac코드와 Jetson Nano ROS1 코드 비교
   - [x] 동일하면 Mac에서 그대로진행
   - [ ] 다르면 Jetson Nano ROS1 코드
 - [ ] OpenCV 코드, Jetson Nano가 됐건, Raspberry Pi가 됐건 작성 완료
 
   - [x] Jetson Nano Adapter 교수님께 여쭤보기 (micro 8pin)
         5V/3A Adapter 빌려서 해결
-  - [ ] opencv 카메라 그린 스크린
+  - [x] opencv 카메라 그린 스크린
 
     - opencv 3.3.1 버전 재설치
-      - [ ] Please include the appropriate gl headers before including cuda_gl_interop.h
+
+      - [x] Please include the appropriate gl headers before including cuda_gl_interop.h
+
+        - Cuda GL Header include 문제
         - `/usr/local/cuda/include/cuda_gl_interop.h` 파일 `<GL.h>` 중복 선언 되도록 변경
 
+      - [x] CODEC_FLAG_GLOBAL_HEADER was not declared in this scope
+
+        - FFMpeg & OpenCV build 문제
+        - 누락된 정의를 수동으로 작성후 빌드
+          ```cpp
+          // in OpenCV/modules/videoio/src/cap_ffmpeg_impl.hpp
+          #define AV_CODEC_FLAG_GLOBAL_HEADER (1 << 22)
+          #define CODEC_FLAG_GLOBAL_HEADER AV_CODEC_FLAG_GLOBAL_HEADER
+          #define AVFMT_RAWPICTURE 0x0020
+          ```
   - 테스트 하며, 영상 촬영하기
 
 - [ ] ROS1 코드 분석, 발표 자료 작성에 추가하기
 
-- [ ] Readme 파일 틈틈히 작성할 것
+- [x] Readme 파일 틈틈히 작성할 것
+
+## 20240705
+
+- [x] 할 내용 리스트 작성하기
+- [x] 우선순위 정하기
+
+- [x] 회의록, 품의서, 지출 결과서, 프로젝트 결과 보고서 작성
+- [ ] 로봇팔 개발 환경 간소화하기
+  - [ ] 로봇팔 실행 과정 정리하기
+    1. `open_manipulator_teleop_keyboard.cpp` 코드 수정
+    2. catekin build
+    3. 런쳐 Node 실행하기 `roslaunch open_manipulator_controller open_manipulator_controller.launch`
+    4. Teleops Node 실행하기 `roslaunch open_manipulator_teleop open_manipulator_teleop_keyboard.launch`
+- [ ] 로봇팔 움직이는 함수 만들기
+- [ ] 객체 인식하여, 좌표화 하기
+- [ ] 좌표를 따라 로봇팔 움직이기
+- [ ] 슬라이드 최신화 하기

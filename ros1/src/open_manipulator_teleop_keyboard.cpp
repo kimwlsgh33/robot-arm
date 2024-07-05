@@ -1,5 +1,10 @@
 ﻿#include "open_manipulator_teleop/open_manipulator_teleop_keyboard.h"
 
+/*
+ * OMT (OpenManipulatorTeleop) 객체가 생성되면 실행되는 생성자
+ * node_handle_, priv_node_handle_ 멤버객체를 초기화한다
+ * 이 두 멤버 객체는, ROS의 Node를 Network와 통신하도록 해준다
+ * */
 OpenManipulatorTeleop::OpenManipulatorTeleop()
     : node_handle_(""), priv_node_handle_("~") {
   /************************************************************
@@ -25,6 +30,7 @@ OpenManipulatorTeleop::~OpenManipulatorTeleop() {
 }
 
 void OpenManipulatorTeleop::initClient() {
+  // Service Client
   goal_joint_space_path_client_ =
       node_handle_.serviceClient<open_manipulator_msgs::SetJointPosition>(
           "goal_joint_space_path");
