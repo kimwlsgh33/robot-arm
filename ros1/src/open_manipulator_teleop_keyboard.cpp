@@ -20,6 +20,8 @@ OpenManipulatorTeleop::OpenManipulatorTeleop()
   initClient();
 
   disableWaitingForEnter();
+
+  // ROS_INFO:  macro is used for logging informational messages.
   ROS_INFO("OpenManipulator teleoperation using keyboard start");
 }
 
@@ -29,17 +31,24 @@ OpenManipulatorTeleop::~OpenManipulatorTeleop() {
   ros::shutdown();
 }
 
+// To get services
 void OpenManipulatorTeleop::initClient() {
-  // Service Client
+  // Getting the goal joint space
   goal_joint_space_path_client_ =
       node_handle_.serviceClient<open_manipulator_msgs::SetJointPosition>(
           "goal_joint_space_path");
+
+  // Getting the goal joint space from present client
   goal_joint_space_path_from_present_client_ =
       node_handle_.serviceClient<open_manipulator_msgs::SetJointPosition>(
           "goal_joint_space_path_from_present");
+
+  // Getting the goal task space from present position only client
   goal_task_space_path_from_present_position_only_client_ =
       node_handle_.serviceClient<open_manipulator_msgs::SetKinematicsPose>(
           "goal_task_space_path_from_present_position_only");
+
+  // Getting the goal tool control client
   goal_tool_control_client_ =
       node_handle_.serviceClient<open_manipulator_msgs::SetJointPosition>(
           "goal_tool_control");
@@ -144,11 +153,31 @@ bool OpenManipulatorTeleop::setToolControl(std::vector<double> joint_angle) {
   return false;
 }
 
+/*
+ *
+ * TaskSpacePath: 작업공간의 경로
+ * PresentPosition: 현재 위치
+ *
+ * 현재 위치를 기준으로, 작업공간의 경로 설정
+ * `kinematics_pose` : X,Y,Z position
+ * `path_time` : the time to complete the movement the the new position
+ * */
 bool OpenManipulatorTeleop::setTaskSpacePathFromPresentPositionOnly(
     std::vector<double> kinematics_pose, double path_time) {
+
+  // Controlling the OpenManipulator robot arm by Kinematics Position
   open_manipulator_msgs::SetKinematicsPose srv;
+
+  /* Setting to the name of the end effector.
+   *
+   * planning_group :
+   *
+   * - retrieve `"end_effector_name"` from the ROS parameter server.
+   * - if it's not set, it defaults to `"gripper"`
+   */
   srv.request.planning_group =
       priv_node_handle_.param<std::string>("end_effector_name", "gripper");
+
   srv.request.kinematics_pose.pose.position.x = kinematics_pose.at(0);
   srv.request.kinematics_pose.pose.position.y = kinematics_pose.at(1);
   srv.request.kinematics_pose.pose.position.z = kinematics_pose.at(2);
@@ -198,15 +227,17 @@ void OpenManipulatorTeleop::printText() {
   printf("---------------------------\n");
 }
 
+// Set the destination goal position
 void OpenManipulatorTeleop::setGoal(char ch) {
   std::vector<double> goalPose;
   goalPose.resize(3, 0.0);
   std::vector<double> goalJoint;
   goalJoint.resize(NUM_OF_JOINT, 0.0);
 
+  // Control Potision of Robot arm
   if (ch == 'w' || ch == 'W') {
     printf("input : w \tincrease(++) x axis in task space\n");
-    goalPose.at(0) = DELTA;
+    goalPose.at(0) = DELTA; // Position Delta
     setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
   } else if (ch == 's' || ch == 'S') {
     printf("input : s \tdecrease(--) x axis in task space\n");
@@ -228,6 +259,7 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     printf("input : x \tdecrease(--) z axis in task space\n");
     goalPose.at(2) = -DELTA;
     setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    //============================================================
   } else if (ch == 'y' || ch == 'Y') {
     printf("input : y \tincrease(++) joint 1 angle\n");
     std::vector<std::string> joint_name;
@@ -311,6 +343,9 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     std::vector<double> joint_angle;
     joint_angle.push_back(-0.01);
     setToolControl(joint_angle);
+    //============================================================
+    //===[ Specified Position ]===
+    //============================================================
   } else if (ch == '2') {
     printf("input : 2 \thome pose\n");
     std::vector<std::string> joint_name;
@@ -341,6 +376,25 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     joint_name.push_back("joint4");
     joint_angle.push_back(0.0);
     setJointSpacePath(joint_name, joint_angle, path_time);
+  } else if (ch = '3') {
+    printf("input : 3 \tinit pose\n");
+
+    std::vector<std::string> joint_name;
+    std::vector<double> joint_angle;
+    double path_time = 2.0;
+
+    joint_name.push_back("joint1");
+    joint_angle.push_back(-0.502);
+    joint_name.push_back("joint2");
+    joint_angle.push_back(0.462);
+    joint_name.push_back("joint3");
+    joint_angle.push_back(-0.324);
+    joint_name.push_back("joint4");
+    joint_angle.push_back(0.902);
+
+    setJointSpacePath(joint_name, joint_angle, path_time);
+  } else if (ch = '4') {
+    printf("input : 4 \tinit pose\n");
   }
 }
 
@@ -352,26 +406,66 @@ void OpenManipulatorTeleop::disableWaitingForEnter(void) {
   // `termios` is used to store the terminal I/O setting
   struct termios newt;
 
-  // 1. Getting the current terminal I/O settings for file descipter `0`
-  // 2. These setting
-  tcgetattr(0, &oldt_);             /* Save terminal settings */
-  newt = oldt_;                     /* Init new settings */
-  newt.c_lflag &= ~(ICANON | ECHO); /* Change settings */
-  tcsetattr(0, TCSANOW, &newt);     /* Apply settings */
+  /* Getting settings
+   *
+   * 0: Getting the current terminal I/O settings for file descipter `0`
+   * &oldt_: Settings will be saved into a class member variable `&oldt_`
+   */
+  tcgetattr(0, &oldt_);
+
+  // Init new settings
+  newt = oldt_;
+
+  /* Set new configs
+   *
+   * ICANON:
+   * - input is started immediately without waiting for a newline (Canonical)
+   *
+   * ECHO: Echoing input characters to the terminal
+   */
+  newt.c_lflag &= ~(ICANON | ECHO);
+
+  /* Apply settings
+   *
+   * 0: Applying for the file descripter `0`
+   * TCSANOW: Specifying that the change should take effect immediately.
+   * &newt: Terminal settings
+   * */
+  tcsetattr(0, TCSANOW, &newt);
 }
 
 int main(int argc, char **argv) {
-  // Init ROS node
+  /* Init ROS node
+   *
+   * argc, argv:
+   * - argument parsing such as `__name`, `__log`, `__ns`, etc.
+   * - These can override the node name, loggign directory, and namespace.
+   *
+   * `__name` : name of the node
+   * `__master` : ROS master info (ROS_MASTER_URI)
+   *
+   * "open_manipulator_teleop_keyboard":
+   * - defalt name of the node, `__name` in argv
+   * */
   ros::init(argc, argv, "open_manipulator_teleop_keyboard");
+
+  // create teleoperation handler object
   OpenManipulatorTeleop openManipulatorTeleop;
 
   char ch;
+  // print Help text for user
   openManipulatorTeleop.printText();
+
+  /* Getting keyboard input and operate it.
+   *
+   * `ros::ok()` : a function that returns `true` if ROS is running properly
+   * `q` : quit
+   * */
   while (ros::ok() && (ch = std::getchar()) != 'q') {
-    ros::spinOnce();
+    ros::spinOnce(); // Processes callbackes once (what callbacks?)
     openManipulatorTeleop.printText();
     ros::spinOnce();
-    openManipulatorTeleop.setGoal(ch);
+    openManipulatorTeleop.setGoal(ch); //
   }
 
   return 0;

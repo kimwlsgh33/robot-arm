@@ -16,6 +16,12 @@
 
 /* Authors: Darby Lim, Hye-Jong KIM, Ryan Shim, Yong-Ho Na */
 
+/**
+ * @file open_manipulator_teleop_keyboard.cpp
+ * @brief This file contains the definition of the OpenManipulatorTeleop
+ * @author kimwlsgh33
+ * @date 2024-07-06
+ * */
 #ifndef OPEN_MANIPULATOR_TELEOP_KEYBOARD_H_
 #define OPEN_MANIPULATOR_TELEOP_KEYBOARD_H_
 
@@ -28,10 +34,15 @@
 #include "open_manipulator_msgs/SetKinematicsPose.h"
 
 #define NUM_OF_JOINT 4 // 로봇팔 관절 개수
-#define DELTA 0.01     // 키보드 입력시,  움직이는 크기
-#define JOINT_DELTA 0.05
-#define PATH_TIME 0.5
+#define DELTA 0.01     // 키보드 입력시 움직이는 크기 (위치기준)
+#define JOINT_DELTA 0.05 // 키보드 입력시 움직이는 거리 (관절각도기준)
+#define PATH_TIME 0.5 // 어떤시간??
 
+/**
+ * @class OpenManipulatorTeleop
+ * @brief Node handler to operate teleops
+ *
+ * */
 class OpenManipulatorTeleop {
 public:
   OpenManipulatorTeleop();
