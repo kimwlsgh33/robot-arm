@@ -388,7 +388,7 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     joint_name.push_back("joint4");
     joint_angle.push_back(0.0);
     setJointSpacePath(joint_name, joint_angle, path_time);
-  } else if (ch = '3') {
+  } else if (ch == '3') {
     printf("input : 3 \tsrc pose\n");
 
     std::vector<std::string> joint_name;
@@ -411,7 +411,7 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     // printf("3. move to dest\n");
     // printf("4. move to lower side\n");
     // printf("5. open gripper\n");
-  } else if (ch = '4') {
+  } else if (ch == '4') {
     printf("input : 4 \tsecond pose\n");
 
     std::vector<std::string> joint_name;
@@ -428,7 +428,7 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     joint_angle.push_back(0.904);
 
     setJointSpacePath(joint_name, joint_angle, path_time);
-  } else if (ch = '5') {
+  } else if (ch == '5') {
     printf("input : 5 \tthird pose\n");
 
     std::vector<std::string> joint_name;
@@ -445,7 +445,7 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     joint_angle.push_back(1.203);
 
     setJointSpacePath(joint_name, joint_angle, path_time);
-  } else if (ch = '6') {
+  } else if (ch == '6') {
     printf("input : 6 \tfourth pose\n");
 
     std::vector<std::string> joint_name;
