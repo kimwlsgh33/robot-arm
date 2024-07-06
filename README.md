@@ -375,3 +375,15 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
 - [ ] 객체 인식하여, 좌표화 하기
 - [ ] 좌표를 따라 로봇팔 움직이기
 - [ ] 슬라이드 최신화 하기
+
+## 20240707
+
+- [x] raspberry pi camera test `rpicam-hello`
+- [x] install raspberry pi camera python library `sudo apt install -y python3-picamera2`
+- [x] install opencv python library from ubuntu repo `sudo apt install -y python3-opencv`
+- [x] install roslib python library from ubuntu repo `sudo apt install -y python3-roslib`
+
+- Connect Camera & Robot Arm
+  - [ ] Detect the colored object using OpenCV
+  - [ ] Calculate the object's position
+  - [ ] Control the robot arm to move to the object's position
