@@ -337,6 +337,7 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
           #define CODEC_FLAG_GLOBAL_HEADER AV_CODEC_FLAG_GLOBAL_HEADER
           #define AVFMT_RAWPICTURE 0x0020
           ```
+
   - 테스트 하며, 영상 촬영하기
 
 - [ ] ROS1 코드 분석, 발표 자료 작성에 추가하기
@@ -355,7 +356,22 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
     2. catekin build
     3. 런쳐 Node 실행하기 `roslaunch open_manipulator_controller open_manipulator_controller.launch`
     4. Teleops Node 실행하기 `roslaunch open_manipulator_teleop open_manipulator_teleop_keyboard.launch`
-- [ ] 로봇팔 움직이는 함수 만들기
+
+## 20240706
+
+- [x] 할 내용 리스트 작성하기
+- [x] 우선순위 정하기
+
+- [ ] 로봇팔 개발 환경 간소화하기
+  - [x] 로봇팔 실행 과정 정리하기
+    1. `open_manipulator_teleop_keyboard.cpp` 코드 수정
+    2. catkin build `cd ~/catkin_ws && catkin_make`
+    3. 런쳐 Node 실행하기 `roslaunch open_manipulator_controller open_manipulator_controller.launch`
+    4. Teleops Node 실행하기 `roslaunch open_manipulator_teleop open_manipulator_teleop_keyboard.launch`
+  - [x] 심볼릭 링크 만들기
+    - from : `~/catkin_ws/src/open_manipulator/open_manipulator_teleop/src/open_manipulator_teleop_keyboard.cpp`
+    - to : `~/robot-arm/ros1/src/open_manipulator_teleop_keyboard.cpp`
+- [x] 로봇팔 움직이는 함수 만들기
 - [ ] 객체 인식하여, 좌표화 하기
 - [ ] 좌표를 따라 로봇팔 움직이기
 - [ ] 슬라이드 최신화 하기

@@ -215,6 +215,8 @@ void OpenManipulatorTeleop::printText() {
   printf("       \n");
   printf("1 : init pose\n");
   printf("2 : home pose\n");
+  printf("3 : src pose\n");
+  printf("4 : src pose\n");
   printf("       \n");
   printf("q to quit\n");
   printf("---------------------------\n");
@@ -235,6 +237,9 @@ void OpenManipulatorTeleop::setGoal(char ch) {
   goalJoint.resize(NUM_OF_JOINT, 0.0);
 
   // Control Potision of Robot arm
+  //============================================================
+  //===[ Control by position ]===
+  //============================================================
   if (ch == 'w' || ch == 'W') {
     printf("input : w \tincrease(++) x axis in task space\n");
     goalPose.at(0) = DELTA; // Position Delta
@@ -259,6 +264,8 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     printf("input : x \tdecrease(--) z axis in task space\n");
     goalPose.at(2) = -DELTA;
     setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+    //============================================================
+    //===[ Control by joint angle ]===
     //============================================================
   } else if (ch == 'y' || ch == 'Y') {
     printf("input : y \tincrease(++) joint 1 angle\n");
@@ -377,7 +384,7 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     joint_angle.push_back(0.0);
     setJointSpacePath(joint_name, joint_angle, path_time);
   } else if (ch = '3') {
-    printf("input : 3 \tinit pose\n");
+    printf("input : 3 \tsrc pose\n");
 
     std::vector<std::string> joint_name;
     std::vector<double> joint_angle;
@@ -393,8 +400,63 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     joint_angle.push_back(0.902);
 
     setJointSpacePath(joint_name, joint_angle, path_time);
+
+    // printf("1. close gripper\n");
+    // printf("2. move to upper side\n");
+    // printf("3. move to dest\n");
+    // printf("4. move to lower side\n");
+    // printf("5. open gripper\n");
   } else if (ch = '4') {
-    printf("input : 4 \tinit pose\n");
+    printf("input : 4 \tsecond pose\n");
+
+    std::vector<std::string> joint_name;
+    std::vector<double> joint_angle;
+    double path_time = 2.0;
+
+    joint_name.push_back("joint1");
+    joint_angle.push_back(-0.500);
+    joint_name.push_back("joint2");
+    joint_angle.push_back(0.451);
+    joint_name.push_back("joint3");
+    joint_angle.push_back(-0.314);
+    joint_name.push_back("joint4");
+    joint_angle.push_back(0.904);
+
+    setJointSpacePath(joint_name, joint_angle, path_time);
+  } else if (ch = '5') {
+    printf("input : 5 \tthird pose\n");
+
+    std::vector<std::string> joint_name;
+    std::vector<double> joint_angle;
+    double path_time = 2.0;
+
+    joint_name.push_back("joint1");
+    joint_angle.push_back(1.612);
+    joint_name.push_back("joint2");
+    joint_angle.push_back(-0.233);
+    joint_name.push_back("joint3");
+    joint_angle.push_back(0.412);
+    joint_name.push_back("joint4");
+    joint_angle.push_back(1.203);
+
+    setJointSpacePath(joint_name, joint_angle, path_time);
+  } else if (ch = '6') {
+    printf("input : 6 \tfourth pose\n");
+
+    std::vector<std::string> joint_name;
+    std::vector<double> joint_angle;
+    double path_time = 2.0;
+
+    joint_name.push_back("joint1");
+    joint_angle.push_back(1.615);
+    joint_name.push_back("joint2");
+    joint_angle.push_back(-0.167);
+    joint_name.push_back("joint3");
+    joint_angle.push_back(0.480);
+    joint_name.push_back("joint4");
+    joint_angle.push_back(1.256);
+
+    setJointSpacePath(joint_name, joint_angle, path_time);
   }
 }
 
