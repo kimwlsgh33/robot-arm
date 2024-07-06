@@ -216,7 +216,9 @@ void OpenManipulatorTeleop::printText() {
   printf("1 : init pose\n");
   printf("2 : home pose\n");
   printf("3 : src pose\n");
-  printf("4 : src pose\n");
+  printf("4 : second pose\n");
+  printf("5 : third pose\n");
+  printf("6 : fourth pose\n");
   printf("       \n");
   printf("q to quit\n");
   printf("---------------------------\n");
@@ -229,7 +231,10 @@ void OpenManipulatorTeleop::printText() {
   printf("---------------------------\n");
 }
 
-// Set the destination goal position
+/* Set the destination goal position
+ *
+ * joint1 -> joint4: Bottom to the Top
+ * */
 void OpenManipulatorTeleop::setGoal(char ch) {
   std::vector<double> goalPose;
   goalPose.resize(3, 0.0);
@@ -431,11 +436,11 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     double path_time = 2.0;
 
     joint_name.push_back("joint1");
-    joint_angle.push_back(1.612);
+    joint_angle.push_back(1.528);
     joint_name.push_back("joint2");
     joint_angle.push_back(-0.233);
     joint_name.push_back("joint3");
-    joint_angle.push_back(0.412);
+    joint_angle.push_back(0.492);
     joint_name.push_back("joint4");
     joint_angle.push_back(1.203);
 
@@ -448,7 +453,7 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     double path_time = 2.0;
 
     joint_name.push_back("joint1");
-    joint_angle.push_back(1.615);
+    joint_angle.push_back(1.528);
     joint_name.push_back("joint2");
     joint_angle.push_back(-0.167);
     joint_name.push_back("joint3");
