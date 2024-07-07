@@ -369,8 +369,12 @@ It can supply various kinds of external power supply (to DYNAMIXEL in RM-X52)
     3. 런쳐 Node 실행하기 `roslaunch open_manipulator_controller open_manipulator_controller.launch`
     4. Teleops Node 실행하기 `roslaunch open_manipulator_teleop open_manipulator_teleop_keyboard.launch`
   - [x] 심볼릭 링크 만들기
-    - from : `~/catkin_ws/src/open_manipulator/open_manipulator_teleop/src/open_manipulator_teleop_keyboard.cpp`
-    - to : `~/robot-arm/ros1/src/open_manipulator_teleop_keyboard.cpp`
+    - Source File
+      - from : `~/catkin_ws/src/open_manipulator/open_manipulator_teleop/src/open_manipulator_teleop_keyboard.cpp`
+      - to : `~/robot-arm/ros1/src/open_manipulator_teleop_keyboard.cpp`
+    - Header File
+      - from : `~/catkin_ws/src/open_manipulator/open_manipulator_teleop/include/open_manipulator_teleop/open_manipulator_teleop_keyboard.h`
+      - to : `~/robot-arm/ros1/include/open_manipulator_teleop_keyboard.h`
 - [x] 로봇팔 움직이는 함수 만들기
 - [ ] 객체 인식하여, 좌표화 하기
 - [ ] 좌표를 따라 로봇팔 움직이기

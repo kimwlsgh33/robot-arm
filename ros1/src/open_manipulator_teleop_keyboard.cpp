@@ -505,7 +505,7 @@ void OpenManipulatorTeleop::disableWaitingForEnter(void) {
   tcsetattr(0, TCSANOW, &newt);
 }
 
-void OpenManipulatorTelop::moveit(void) {
+void OpenManipulatorTeleop::moveit(void) {
   std::vector<double> goalJoint;
   goalJoint.resize(NUM_OF_JOINT, 0.0);
 
