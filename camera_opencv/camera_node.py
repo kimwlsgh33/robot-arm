@@ -5,17 +5,32 @@ from picamera2 import Picamera2, Preview
 from std_msgs.msg import Float32MultiArray
 
 
-def detect_red_object(frame):
+def detect_object(frame, color):
     # ===================================
     # Color Detection
     # ===================================
-    hsv = cv2.cvtColor(cv2.COLOR_BGR2HSV)  # HACK: why?
-    # Define range of red color in HSV
-    lower_red = np.array([0, 120, 70])
-    upper_red = np.array([10, 255, 255])
-    # Threshold the HSV image to get only red colors
-    mask = cv2.inRange(hsv, lower_red, upper_red)
-    # Find contours HACK: how?
+    hsv = cv2.cvtColor(cv2.COLOR_BGR2HSV)
+    # Define range of color in HSV
+    if color == "red":
+        lower_color = np.array([0, 120, 70])
+        upper_color = np.array([10, 255, 255])
+    elif color == "green":
+        lower_color = np.array([36, 100, 100])
+        upper_color = np.array([86, 255, 255])
+    elif color == "yellow":
+        lower_color = np.array([22, 93, 0])
+        upper_color = np.array([45, 255, 255])
+    elif color == "blue":
+        lower_color = np.array([94, 80, 2])
+        upper_color = np.array([126, 255, 255])
+    else:
+        # default color is black
+        lower_color = np.array([0, 0, 0])
+        upper_color = np.array([180, 255, 30])
+
+    # Threshold the HSV image to get only specific colors
+    mask = cv2.inRange(hsv, lower_color, upper_color)
+    # Find contours
     contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     # ===================================
@@ -53,7 +68,7 @@ def main():
             frame, cv2.COLOR_RGB2BGR
         )  # Convert RGB to BGR format used by OpenCV
 
-        position = detect_red_object(cv_image)
+        position = detect_object(cv_image, "red")
         if position:
             msg = Float32MultiArray(data=[position[0], position[1]])
             pub.publish(msg)
