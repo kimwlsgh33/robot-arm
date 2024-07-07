@@ -31,7 +31,7 @@ OpenManipulatorTeleop::~OpenManipulatorTeleop() {
   ros::shutdown();
 }
 
-// To get services
+// Request Service
 void OpenManipulatorTeleop::initClient() {
   // Getting the goal joint space
   goal_joint_space_path_client_ =
@@ -463,6 +463,9 @@ void OpenManipulatorTeleop::setGoal(char ch) {
     joint_angle.push_back(1.256);
 
     setJointSpacePath(joint_name, joint_angle, path_time);
+  } else if (ch == '7') {
+    printf("input : 7\tfourth pose\n");
+    moveit();
   }
 }
 
@@ -500,6 +503,75 @@ void OpenManipulatorTeleop::disableWaitingForEnter(void) {
    * &newt: Terminal settings
    * */
   tcsetattr(0, TCSANOW, &newt);
+}
+
+void OpenManipulatorTelop::moveit(void) {
+  std::vector<double> goalJoint;
+  goalJoint.resize(NUM_OF_JOINT, 0.0);
+
+  // src
+  printf("src pose\n");
+
+  std::vector<std::string> joint_name;
+  std::vector<double> joint_angle;
+  double path_time = 2.0;
+
+  joint_name.push_back("joint1");
+  joint_angle.push_back(-0.502);
+  joint_name.push_back("joint2");
+  joint_angle.push_back(0.462);
+  joint_name.push_back("joint3");
+  joint_angle.push_back(-0.324);
+  joint_name.push_back("joint4");
+  joint_angle.push_back(0.902);
+
+  setJointSpacePath(joint_name, joint_angle, path_time);
+
+  // grab
+  printf("close gripper\n");
+  std::vector<double> joint_angle;
+  joint_angle.push_back(-0.01);
+  setToolControl(joint_angle);
+
+  // home
+  printf("home pose\n");
+  std::vector<std::string> joint_name;
+  std::vector<double> joint_angle;
+  double path_time = 2.0;
+
+  joint_name.push_back("joint1");
+  joint_angle.push_back(0.0);
+  joint_name.push_back("joint2");
+  joint_angle.push_back(-1.05);
+  joint_name.push_back("joint3");
+  joint_angle.push_back(0.35);
+  joint_name.push_back("joint4");
+  joint_angle.push_back(0.70);
+  setJointSpacePath(joint_name, joint_angle, path_time);
+
+  // dest
+  printf("fourth pose\n");
+
+  std::vector<std::string> joint_name;
+  std::vector<double> joint_angle;
+  double path_time = 2.0;
+
+  joint_name.push_back("joint1");
+  joint_angle.push_back(1.528);
+  joint_name.push_back("joint2");
+  joint_angle.push_back(-0.167);
+  joint_name.push_back("joint3");
+  joint_angle.push_back(0.480);
+  joint_name.push_back("joint4");
+  joint_angle.push_back(1.256);
+
+  setJointSpacePath(joint_name, joint_angle, path_time);
+
+  // open
+  printf("open gripper\n");
+  std::vector<double> joint_angle;
+  joint_angle.push_back(0.01);
+  setToolControl(joint_angle);
 }
 
 void objectCoordinatesCallback(

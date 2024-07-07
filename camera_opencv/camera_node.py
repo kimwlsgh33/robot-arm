@@ -1,8 +1,8 @@
-import cv2
-import numpy as np
-import rospy
-from picamera2 import Picamera2, Preview
-from std_msgs.msg import Float32MultiArray
+import cv2  # pyright: ignore
+import numpy as np  # pyright: ignore
+import rospy  # pyright: ignore
+from picamera2 import Picamera2, Preview  # pyright: ignore
+from std_msgs.msg import Float32MultiArray  # pyright: ignore
 
 
 def detect_object(frame, color):
@@ -51,6 +51,7 @@ def main():
     # ===================================
     # Initialize ROS Node and Publisher
     # ===================================
+    # TODO: Connect to the internet
     rospy.init_node("camera_node", anonymous=True)
     pub = rospy.Publisher("object_position", Float32MultiArray, queue_size=10)
 
@@ -68,6 +69,7 @@ def main():
             frame, cv2.COLOR_RGB2BGR
         )  # Convert RGB to BGR format used by OpenCV
 
+        # TODO: input the color
         position = detect_object(cv_image, "red")
         if position:
             msg = Float32MultiArray(data=[position[0], position[1]])

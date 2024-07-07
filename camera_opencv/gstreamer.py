@@ -5,14 +5,7 @@
 # NVIDIA Jetson Nano Developer Kit using OpenCV
 # Drivers for the camera and OpenCV are included in the base image
 
-import cv2
-
-""" 
-gstreamer_pipeline returns a GStreamer pipeline for capturing from the CSI camera
-Flip the image by setting the flip_method (most common values: 0 and 2)
-display_width and display_height determine the size of each camera pane in the window on the screen
-Default 1920x1080 displayd in a 1/4 size window
-"""
+import cv2  # pyright: ignore
 
 
 def gstreamer_pipeline(
