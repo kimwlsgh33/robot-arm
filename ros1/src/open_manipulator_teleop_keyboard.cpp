@@ -529,15 +529,11 @@ void OpenManipulatorTeleop::moveit(void) {
 
   // grab
   printf("close gripper\n");
-  std::vector<double> joint_angle;
   joint_angle.push_back(-0.01);
   setToolControl(joint_angle);
 
   // home
   printf("home pose\n");
-  std::vector<std::string> joint_name;
-  std::vector<double> joint_angle;
-  double path_time = 2.0;
 
   joint_name.push_back("joint1");
   joint_angle.push_back(0.0);
@@ -552,10 +548,6 @@ void OpenManipulatorTeleop::moveit(void) {
   // dest
   printf("fourth pose\n");
 
-  std::vector<std::string> joint_name;
-  std::vector<double> joint_angle;
-  double path_time = 2.0;
-
   joint_name.push_back("joint1");
   joint_angle.push_back(1.528);
   joint_name.push_back("joint2");
@@ -569,7 +561,6 @@ void OpenManipulatorTeleop::moveit(void) {
 
   // open
   printf("open gripper\n");
-  std::vector<double> joint_angle;
   joint_angle.push_back(0.01);
   setToolControl(joint_angle);
 }
