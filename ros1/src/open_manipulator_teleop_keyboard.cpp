@@ -526,6 +526,7 @@ void OpenManipulatorTeleop::moveit(void) {
   joint_angle.push_back(0.902);
 
   setJointSpacePath(joint_name, joint_angle, path_time);
+
   int i;
   for (i = 0; i < NUM_OF_JOINT; ++i) {
     joint_angle.pop_back();
@@ -535,33 +536,31 @@ void OpenManipulatorTeleop::moveit(void) {
   printf("close gripper\n");
   joint_angle.push_back(-0.01);
   setToolControl(joint_angle);
+  joint_angle.pop_back();
 
   // home
   printf("home pose\n");
 
-  joint_name.push_back("joint1");
   joint_angle.push_back(0.0);
-  joint_name.push_back("joint2");
   joint_angle.push_back(-1.05);
-  joint_name.push_back("joint3");
   joint_angle.push_back(0.35);
-  joint_name.push_back("joint4");
   joint_angle.push_back(0.70);
   setJointSpacePath(joint_name, joint_angle, path_time);
+  for (i = 0; i < NUM_OF_JOINT; ++i) {
+    joint_angle.pop_back();
+  }
 
   // dest
   printf("fourth pose\n");
 
-  joint_name.push_back("joint1");
   joint_angle.push_back(1.528);
-  joint_name.push_back("joint2");
   joint_angle.push_back(-0.167);
-  joint_name.push_back("joint3");
   joint_angle.push_back(0.480);
-  joint_name.push_back("joint4");
   joint_angle.push_back(1.256);
-
   setJointSpacePath(joint_name, joint_angle, path_time);
+  for (i = 0; i < NUM_OF_JOINT; ++i) {
+    joint_angle.pop_back();
+  }
 
   // open
   printf("open gripper\n");
