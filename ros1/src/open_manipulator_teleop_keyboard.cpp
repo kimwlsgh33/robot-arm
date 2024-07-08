@@ -520,7 +520,7 @@ void OpenManipulatorTeleop::moveit(void) {
 
   // src
   printf("src pose\n");
-  goSrc(joint_angle);
+  goSrc(&joint_name, joint_angle, path_time);
 
   // grab
   printf("close gripper\n");
@@ -572,7 +572,7 @@ void OpenManipulatorTeleop::moveit(void) {
 }
 
 void OpenManipulatorTeleop::getback(void) {}
-void OpenManipulatorTeleop::goSrc(std::vector<double> &joint_angle) {
+void OpenManipulatorTeleop::goSrc(const std::vector<double> *joint_name, std::vector<double> &joint_angle, double &path_time) {
   joint_angle.push_back(-0.502);
   joint_angle.push_back(0.462);
   joint_angle.push_back(-0.324);
