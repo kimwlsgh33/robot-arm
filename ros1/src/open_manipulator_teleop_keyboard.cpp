@@ -516,7 +516,7 @@ void OpenManipulatorTeleop::moveit(void) {
   joint_name.push_back("joint4");
 
   std::vector<double> joint_angle;
-  double[4] dest_angle;
+  // double[4] dest_angle;
   double path_time = 2.0;
 
   // src
