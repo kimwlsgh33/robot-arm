@@ -565,25 +565,25 @@ void OpenManipulatorTeleop::moveit(void) {
   setToolControl(joint_angle);
 }
 
-void objectCoordinatesCallback(
-    const std_msgs::Float32MultiArray::ConstPtr &msg) {
-  float x = msg->data[0];
-  float y = msg->data[1];
-
-  ROS_INFO("Received coordinates: X=%f, Y=%f", x, y);
-
-  // Logic to move the robot arm to the coordinates (x, y)
-  // Placeholder for the actual movement logic
-  std::vector<std::string> joint_name;
-  std::vector<double> joint_angle;
-  double path_time = 2.0;
-
-  // Example joint movements, should be replaced with actual logic
-  std::vector<double> goalPose;
-  goalPose.resize(3, 0.0);
-  goalPose.at(0) = -DELTA;
-  setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
-}
+// void objectCoordinatesCallback(
+//     const std_msgs::Float32MultiArray::ConstPtr &msg) {
+//   float x = msg->data[0];
+//   float y = msg->data[1];
+//
+//   ROS_INFO("Received coordinates: X=%f, Y=%f", x, y);
+//
+//   // Logic to move the robot arm to the coordinates (x, y)
+//   // Placeholder for the actual movement logic
+//   std::vector<std::string> joint_name;
+//   std::vector<double> joint_angle;
+//   double path_time = 2.0;
+//
+//   // Example joint movements, should be replaced with actual logic
+//   std::vector<double> goalPose;
+//   goalPose.resize(3, 0.0);
+//   goalPose.at(0) = -DELTA;
+//   setTaskSpacePathFromPresentPositionOnly(goalPose, PATH_TIME);
+// }
 
 int main(int argc, char **argv) {
   /* Init ROS node
