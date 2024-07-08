@@ -528,7 +528,7 @@ void OpenManipulatorTeleop::moveit(void) {
   setJointSpacePath(joint_name, joint_angle, path_time);
   int i;
   for (i = 0; i < NUM_OF_JOINT; ++i) {
-    joint_angle.pop();
+    joint_angle.pop_back();
   }
 
   // grab
