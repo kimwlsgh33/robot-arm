@@ -526,6 +526,10 @@ void OpenManipulatorTeleop::moveit(void) {
   joint_angle.push_back(0.902);
 
   setJointSpacePath(joint_name, joint_angle, path_time);
+  int i;
+  for (i = 0; i < NUM_OF_JOINT; ++i) {
+    joint_angle.pop();
+  }
 
   // grab
   printf("close gripper\n");
