@@ -531,12 +531,14 @@ void OpenManipulatorTeleop::moveit(void) {
   for (i = 0; i < NUM_OF_JOINT; ++i) {
     joint_angle.pop_back();
   }
+  sleep(2);
 
   // grab
   printf("close gripper\n");
   joint_angle.push_back(-0.01);
   setToolControl(joint_angle);
   joint_angle.pop_back();
+  sleep(2);
 
   // home
   printf("home pose\n");
@@ -549,6 +551,7 @@ void OpenManipulatorTeleop::moveit(void) {
   for (i = 0; i < NUM_OF_JOINT; ++i) {
     joint_angle.pop_back();
   }
+  sleep(2);
 
   // dest
   printf("fourth pose\n");
@@ -561,6 +564,7 @@ void OpenManipulatorTeleop::moveit(void) {
   for (i = 0; i < NUM_OF_JOINT; ++i) {
     joint_angle.pop_back();
   }
+  sleep(2);
 
   // open
   printf("open gripper\n");
