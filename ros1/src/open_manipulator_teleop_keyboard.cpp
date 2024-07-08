@@ -575,6 +575,7 @@ void OpenManipulatorTeleop::moveit(void) {
   setToolControl(joint_angle);
   joint_angle.pop_back();
 
+  sleep(2);
   // home
   printf("home pose\n");
 
