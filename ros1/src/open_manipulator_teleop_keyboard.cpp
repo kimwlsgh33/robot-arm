@@ -509,29 +509,18 @@ void OpenManipulatorTeleop::moveit(void) {
   std::vector<double> goalJoint;
   goalJoint.resize(NUM_OF_JOINT, 0.0);
 
-  // src
-  printf("src pose\n");
-
   std::vector<std::string> joint_name;
+  joint_name.push_back("joint1");
+  joint_name.push_back("joint2");
+  joint_name.push_back("joint3");
+  joint_name.push_back("joint4");
+
   std::vector<double> joint_angle;
   double path_time = 2.0;
 
-  joint_name.push_back("joint1");
-  joint_angle.push_back(-0.502);
-  joint_name.push_back("joint2");
-  joint_angle.push_back(0.462);
-  joint_name.push_back("joint3");
-  joint_angle.push_back(-0.324);
-  joint_name.push_back("joint4");
-  joint_angle.push_back(0.902);
-
-  setJointSpacePath(joint_name, joint_angle, path_time);
-
-  int i;
-  for (i = 0; i < NUM_OF_JOINT; ++i) {
-    joint_angle.pop_back();
-  }
-  sleep(2);
+  // src
+  printf("src pose\n");
+  goSrc(joint_angle);
 
   // grab
   printf("close gripper\n");
@@ -570,6 +559,31 @@ void OpenManipulatorTeleop::moveit(void) {
   printf("open gripper\n");
   joint_angle.push_back(0.01);
   setToolControl(joint_angle);
+  joint_angle.pop_back();
+
+  // home
+  printf("home pose\n");
+
+  joint_angle.push_back(0.0);
+  joint_angle.push_back(-1.05);
+  joint_angle.push_back(0.35);
+  joint_angle.push_back(0.70);
+  setJointSpacePath(joint_name, joint_angle, path_time);
+}
+
+void OpenManipulatorTeleop::getback(void) {}
+void OpenManipulatorTeleop::goSrc(std::vector<double> &joint_angle) {
+  joint_angle.push_back(-0.502);
+  joint_angle.push_back(0.462);
+  joint_angle.push_back(-0.324);
+  joint_angle.push_back(0.902);
+
+  setJointSpacePath(joint_name, joint_angle, path_time);
+
+  for (int i = 0; i < NUM_OF_JOINT; ++i) {
+    joint_angle.pop_back();
+  }
+  sleep(2);
 }
 
 // void objectCoordinatesCallback(

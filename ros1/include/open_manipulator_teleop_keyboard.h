@@ -107,6 +107,8 @@ private:
   void disableWaitingForEnter(void);
   void restoreTerminalSettings(void);
   void moveit(void);
+  void goSrc(std::vector<double> &joint_angle);
+  void getback(void);
   std::vector<double> getPresentJointAngle();
   std::vector<double> getPresentKinematicsPose();
 };
